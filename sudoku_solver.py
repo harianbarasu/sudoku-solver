@@ -30,22 +30,32 @@ class Board(object):
 		print "%3s" %"I"
 
 		# A variable to be used to print the row boxes.
-		# Try to think of a better way.\
+		# Try to think of a better way.
 		row_counter = 0
 
+		# Loop to iterate over the rows
 		for i in range(9):
+
+			# Loop to iterate over the columns
 			for j in range(9):
+
+				# Prior to printing the first column print the row number
 				if j == 0:
 					print "%3s" %row_counter,
 					row_counter += 1
+
+				# If the next row is going to have dashes and pluses
+				# use the standard print function for better display
 				if(i + 1) % 3 == 0 and i != 8 and j == 8:
 					print "%3s" %self.board[i][j]
 				else:
 					print "%3s" %self.board[i][j],
 
+				# Every 3 columns, add a divider to show gap between squares
 				if (j + 1) % 3 == 0 and j != 8:
 					print "%3s" %"|",
 
+			# Every 3 rows, print a row of dashes and pluses to show gap
 			if (i + 1) % 3 == 0 and i != 8:
 				print " " * 3,
 				for k in range(2):
