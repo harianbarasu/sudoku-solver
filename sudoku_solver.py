@@ -71,21 +71,39 @@ class Board(object):
 			else:
 				print "\n"
 
+# Function to fill in numbers into a Board object. 
 def fill_numbers(board):
+
+	# Inform the user what is happening
 	print "You are now filling in numbers. The program will continue to prompt you until you input 'DONE'."
 
+	# Run an infinite loop and break within loop once condition is met
 	while True:
+
+		# Get the cell into which a number should be inputted
 		cell = raw_input("Enter the cell to input the number into. Enter DONE if you are done filling in numbers: ")
+
+		# If they type DONE, stop taking in numbers.
 		if cell == "DONE":
 			return
+
+		# Get the number that is going in the cell
 		number = int(raw_input('Enter the number to be inputted into cell %s: ' %cell))
 
+		# Column is the letter indexed one
 		column = column_hash[cell[0]]
-		row = int(cell[1])
-		board.board[column][row] = number
 
+		# Row is the number indexed one
+		row = int(cell[1])
+
+		# Insert into the board
+		board.board[row][column] = number
+
+		# Print the board for verification
 		print "Here is the current board:"
 		board.print_board()
+
+		# Have an undo button?
 
 def main():
 	new_board = Board()
