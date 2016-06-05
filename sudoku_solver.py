@@ -29,6 +29,8 @@ class Board(object):
 		print "%3s" %"H",
 		print "%3s" %"I"
 
+		print "TEST"
+
 		# A variable to be used to print the row boxes.
 		# Try to think of a better way.
 		row_counter = 0
@@ -64,5 +66,7 @@ class Board(object):
 			else:
 				print "\n"
 
-board = Board()
-board.print_board()
+def main():
+
+if __name__ == "__main__":
+    main()
