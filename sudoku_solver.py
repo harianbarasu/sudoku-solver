@@ -3,6 +3,12 @@
 # It will takes as input, a sudoku board with some of the boxes filled in.
 # It will output the solved sudoku board.
 
+# Define global variable for EMPTY
+EMPTY = "."
+
+# Hash table to map column headers to array indices
+column_hash = {"A": 0, "B": 1, "C": 2, "D": 3, "E": 4, "F": 5, "G": 6, "H": 7, "I": 8}
+
 # The Board class which will be used for the game board.
 class Board(object):
 
@@ -29,7 +35,6 @@ class Board(object):
 		print "%3s" %"H",
 		print "%3s" %"I"
 
-		print "TEST"
 
 		# A variable to be used to print the row boxes.
 		# Try to think of a better way.
@@ -66,7 +71,40 @@ class Board(object):
 			else:
 				print "\n"
 
+def fill_numbers(board):
+	print "You are now filling in numbers. The program will continue to prompt you until you input 'DONE'."
+
+	while True:
+		cell = raw_input("Enter the cell to input the number into. Enter DONE if you are done filling in numbers: ")
+		if cell == "DONE":
+			return
+		number = int(raw_input('Enter the number to be inputted into cell %s: ' %cell))
+
+		column = column_hash[cell[0]]
+		row = int(cell[1])
+		board.board[column][row] = number
+
+		print "Here is the current board:"
+		board.print_board()
+
 def main():
+	new_board = Board()
+	print "Welcome to Sudoku Solver!"
+	print "This is the current board:"
+	new_board.print_board()
+	choice = raw_input("Your options are: FILL, SOLVE, or QUIT. ")
+	if choice == "FILL" or choice == "fill" or choice == "F" or choice == "f":
+		fill_numbers(new_board)
+	elif choice == "SOLVE" or choice == "solve" or choice == "S" or choice == "s":
+		pass
+	elif choice == "QUIT" or choice == "quit" or choice == "Q" or choice == "q":
+		return
+	else:
+		print "You have chosen a wrong command. Exiting."
+		return
+
+
+
 
 if __name__ == "__main__":
     main()
