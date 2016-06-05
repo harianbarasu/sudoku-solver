@@ -87,8 +87,18 @@ def fill_numbers(board):
 		if cell == "DONE":
 			return
 
+		# A basic sanity check.
+		while cell[0] not in column_hash or int(cell[1]) < 0 or int(cell[1]) > 8:
+			print "Not a valid cell."
+			cell = raw_input("Enter the cell to input the number into. Enter DONE if you are done filling in numbers: ")
+
 		# Get the number that is going in the cell
 		number = int(raw_input('Enter the number to be inputted into cell %s: ' %cell))
+
+		# Some basic sanity checks
+		while(number < 1 or number > 9):
+			print "Not a valid number for a sudoku board."
+			number = int(raw_input('Enter the number to be inputted into cell %s: ' %cell))
 
 		# Column is the letter indexed one
 		column = column_hash[cell[0]]
