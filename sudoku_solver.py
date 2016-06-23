@@ -130,9 +130,19 @@ def check_col(board, col_num, value):
 			return false
 	return true
 
+def check_box(board, row_num, col_num, value):
+	row_quotient = row_num / 3
+	col_quotient = col_num / 3
+	for i in range(row_quotient * 3, (row_quotient + 1) * 3):
+		for j in range(col_quotient * 3, (col_quotient + 1) * 3):
+			if board.board[i][j] == value:
+				return false
+	return true	
 
 def solve_board(board):
 	pass
+
+	
 
 
 def main():
