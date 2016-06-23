@@ -3,11 +3,14 @@
 # It will takes as input, a sudoku board with some of the boxes filled in.
 # It will output the solved sudoku board.
 
+from copy import deepcopy
+
 # Define global variable for EMPTY
 EMPTY = "."
 
 # Hash table to map column headers to array indices
-column_hash = {"A": 0, "B": 1, "C": 2, "D": 3, "E": 4, "F": 5, "G": 6, "H": 7, "I": 8}
+column_hash = {"A": 0, "a": 0, "B": 1, "b": 1, "C": 2, "c": 2, "D": 3, "d": 3,
+				 "E": 4, "e": 4, "F": 5, "f": 5, "G": 6, "g": 6, "H": 7, "h": 7, "I": 8, "i": 8}
 
 # The Board class which will be used for the game board.
 class Board(object):
@@ -84,7 +87,7 @@ def fill_numbers(board):
 		cell = raw_input("Enter the cell to input the number into. Enter DONE if you are done filling in numbers: ")
 
 		# If they type DONE, stop taking in numbers.
-		if cell == "DONE":
+		if cell == "DONE" or cell == "done" or cell == "D" or cell == "d":
 			return
 
 		# A basic sanity check.
@@ -114,6 +117,23 @@ def fill_numbers(board):
 		board.print_board()
 
 		# Have an undo button?
+
+def check_row(board, row_num, value):
+	for i in range(9):
+		if board.board[row_num][i] == value:
+			return false
+	return true
+
+def check_col(board, col_num, value):
+	for i in range(9):
+		if board.board[i][col_num] == value:
+			return false
+	return true
+
+
+def solve_board(board):
+	pass
+
 
 def main():
 	new_board = Board()
