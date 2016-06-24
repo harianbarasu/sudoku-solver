@@ -97,60 +97,22 @@ def fill_numbers(board):
 				board.board[row_num][col_num] = int(row_list[col_num])
 		print "Here is the current board:"
 		board.print_board()
-
-"""
-	# Run an infinite loop and break within loop once condition is met
-	while True:
-
-		# Get the cell into which a number should be inputted
-		cell = raw_input("Enter the cell to input the number into. Enter DONE if you are done filling in numbers: ")
-
-		# If they type DONE, stop taking in numbers.
-		if cell == "DONE" or cell == "done" or cell == "D" or cell == "d":
-			find_unsolved_locations(board)
-			solve_board(board)
-			return
-
-		# A basic sanity check.
-		while cell[0] not in column_hash or int(cell[1]) < 0 or int(cell[1]) > 8:
-			print "Not a valid cell."
-			cell = raw_input("Enter the cell to input the number into. Enter DONE if you are done filling in numbers: ")
-
-		# Get the number that is going in the cell
-		number = int(raw_input('Enter the number to be inputted into cell %s: ' %cell))
-
-		# Some basic sanity checks
-		while(number < 1 or number > 9):
-			print "Not a valid number for a sudoku board."
-			number = int(raw_input('Enter the number to be inputted into cell %s: ' %cell))
-
-		# Column is the letter indexed one
-		column = column_hash[cell[0]]
-
-		# Row is the number indexed one
-		row = int(cell[1])
-
-		# Insert into the board
-		board.board[row][column] = number
-
-		# Print the board for verification
-		print "Here is the current board:"
-		board.print_board()
-
-		# Have an undo button?
-"""
+	find_unsolved_locations(board)
+	solve_board(board)
+	print "This is the final board:"
+	board.print_board()
 
 def check_row(board, row_num, value):
 	for i in range(9):
 		if board.board[row_num][i] == value:
-			return false
-	return true
+			return False
+	return True
 
 def check_col(board, col_num, value):
 	for i in range(9):
 		if board.board[i][col_num] == value:
-			return false
-	return true
+			return False
+	return True
 
 def check_box(board, row_num, col_num, value):
 	row_quotient = row_num / 3
@@ -158,8 +120,8 @@ def check_box(board, row_num, col_num, value):
 	for i in range(row_quotient * 3, (row_quotient + 1) * 3):
 		for j in range(col_quotient * 3, (col_quotient + 1) * 3):
 			if board.board[i][j] == value:
-				return false
-	return true	
+				return False
+	return True	
 
 def find_unsolved_locations(board):
 	for i in range(9):
@@ -170,8 +132,8 @@ def find_unsolved_locations(board):
 def valid_move(board, row_num, col_num, value):
 	if check_row(board, row_num, value) and check_col(board, col_num, value) \
 	and check_box(board, row_num, col_num, value):
-		return true
-	return false
+		return True
+	return False
 
 def solve_board(board):
 	if not unsolved_locations:
@@ -180,11 +142,15 @@ def solve_board(board):
 		row, col = unsolved_locations.pop()
 		if valid_move(board, row, col, i):
 			board.board[row][col] = i
-			board.print_board()
-			if not solve_board(board):
+			result = solve_board(board)
+			if not result:
 				board.board[row][col] = EMPTY
 				unsolved_locations.append((row, col))
-		return False
+			else:
+				return True
+		else:
+			unsolved_locations.append((row, col))
+	return False
 
 def main():
 	new_board = Board()
@@ -195,7 +161,10 @@ def main():
 	if choice == "FILL" or choice == "fill" or choice == "F" or choice == "f":
 		fill_numbers(new_board)
 	elif choice == "SOLVE" or choice == "solve" or choice == "S" or choice == "s":
-		pass
+		find_unsolved_locations(new_board)
+		solve_board(new_board)
+		print "This is the final board:"
+		new_board.print_board()
 	elif choice == "QUIT" or choice == "quit" or choice == "Q" or choice == "q":
 		return
 	else:
