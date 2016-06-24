@@ -84,6 +84,21 @@ def fill_numbers(board):
 	# Inform the user what is happening
 	print "You are now filling in numbers. The program will continue to prompt you until you input 'DONE'."
 
+	for row_num in range(9):
+		row = raw_input("Please enter the numbers found in row %d, in order, separated by commas. If there is no number, enter 0: " % (row_num))
+		row_list = [x.strip() for x in row.split(',')]
+		for col_num in range(9):
+			if(int(row_list[col_num]) < 0 or int(row_list[col_num]) > 9):
+				print "Not a valid number to be entered. Quitting."
+				return
+			if int(row_list[col_num]) == 0:
+				board.board[row_num][col_num] = EMPTY
+			else:
+				board.board[row_num][col_num] = int(row_list[col_num])
+		print "Here is the current board:"
+		board.print_board()
+
+"""
 	# Run an infinite loop and break within loop once condition is met
 	while True:
 
@@ -123,6 +138,7 @@ def fill_numbers(board):
 		board.print_board()
 
 		# Have an undo button?
+"""
 
 def check_row(board, row_num, value):
 	for i in range(9):
