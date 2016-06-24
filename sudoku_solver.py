@@ -9,8 +9,12 @@ from copy import deepcopy
 EMPTY = "."
 
 # Hash table to map column headers to array indices
-column_hash = {"A": 0, "a": 0, "B": 1, "b": 1, "C": 2, "c": 2, "D": 3, "d": 3,
-				 "E": 4, "e": 4, "F": 5, "f": 5, "G": 6, "g": 6, "H": 7, "h": 7, "I": 8, "i": 8}
+column_hash = {
+	"A": 0, "a": 0, "B": 1, "b": 1, "C": 2, "c": 2, "D": 3, "d": 3,
+	"E": 4, "e": 4, "F": 5, "f": 5, "G": 6, "g": 6, "H": 7, "h": 7,
+	"I": 8, "i": 8}
+
+unsolved_locations = []
 
 # The Board class which will be used for the game board.
 class Board(object):
@@ -88,6 +92,8 @@ def fill_numbers(board):
 
 		# If they type DONE, stop taking in numbers.
 		if cell == "DONE" or cell == "done" or cell == "D" or cell == "d":
+			find_unsolved_locations(board)
+			solve_board(board)
 			return
 
 		# A basic sanity check.
@@ -139,11 +145,30 @@ def check_box(board, row_num, col_num, value):
 				return false
 	return true	
 
+def find_unsolved_locations(board):
+	for i in range(9):
+		for j in range(9):
+			if board.board[i][j] == EMPTY:
+				unsolved_locations.append((i, j))
+
+def valid_move(board, row_num, col_num, value):
+	if check_row(board, row_num, value) and check_col(board, col_num, value) \
+	and check_box(board, row_num, col_num, value):
+		return true
+	return false
+
 def solve_board(board):
-	pass
-
-	
-
+	if not unsolved_locations:
+		return True
+	for i in range(1, 10):
+		row, col = unsolved_locations.pop()
+		if valid_move(board, row, col, i):
+			board.board[row][col] = i
+			board.print_board()
+			if not solve_board(board):
+				board.board[row][col] = EMPTY
+				unsolved_locations.append((row, col))
+		return False
 
 def main():
 	new_board = Board()
