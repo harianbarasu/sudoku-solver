@@ -87,20 +87,47 @@ def fill_numbers(board):
 	for row_num in range(9):
 		row = raw_input("Please enter the numbers found in row %d, in order, separated by commas. If there is no number, enter 0: " % (row_num))
 		row_list = [x.strip() for x in row.split(',')]
-		for col_num in range(9):
-			if(int(row_list[col_num]) < 0 or int(row_list[col_num]) > 9):
-				print "Not a valid number to be entered. Quitting."
-				return
-			if int(row_list[col_num]) == 0:
-				board.board[row_num][col_num] = EMPTY
-			else:
-				board.board[row_num][col_num] = int(row_list[col_num])
-		print "Here is the current board:"
+		input_numbers(board, row_num, row_list)
+	answer = raw_input("Would you like to [s]olve, [q]uit or [c]hange? ")
+
+	if answer == "solve" or answer == "SOLVE" or answer == "S" or answer == "s":
+		find_unsolved_locations(board)
+		solve_board(board)
+		print "This is the final board:"
 		board.print_board()
-	find_unsolved_locations(board)
-	solve_board(board)
-	print "This is the final board:"
+		return
+	if answer == "quit" or answer == "QUIT" or answer == "Q" or answer == "q":
+		print "Quitting. Thank you for playing."
+		return
+	if answer == "change" or answer == "CHANGE" or answer == "C" or answer == "c":
+		print "You are now entering [c]hange mode."
+		while(change_row(board)):
+			pass
+		find_unsolved_locations(board)
+		solve(board)
+		print "This is the final board:"
+		board.print_board()
+
+
+def input_numbers(board, row_num, row_list):
+	for col_num in range(9):
+		if(int(row_list[col_num]) < 0 or int(row_list[col_num]) > 9):
+			print "Not a valid number to be entered. Quitting."
+			return
+		if int(row_list[col_num]) == 0:
+			board.board[row_num][col_num] = EMPTY
+		else:
+			board.board[row_num][col_num] = int(row_list[col_num])
+	print "Here is the current board:"
 	board.print_board()
+
+def change_row(board):
+	row = raw_input("Which row would you like to change? Please type [d]one if finished changing. ")
+	if row == "done" or row == "DONE" or row == "d" or row == "D":
+		return False
+	row_list = [x.strip() for x in raw_input("Please enter the numbers found in row %d, in order, separated by commas. If there is no number, enter 0: ") % (int(row))]
+	input_numbers(board, int(row), row_list, col_num)
+	return True
 
 def check_row(board, row_num, value):
 	for i in range(9):
@@ -157,7 +184,7 @@ def main():
 	print "Welcome to Sudoku Solver!"
 	print "This is the current board:"
 	new_board.print_board()
-	choice = raw_input("Your options are: FILL, SOLVE, or QUIT. ")
+	choice = raw_input("Your options are: [f]ill, [s]olve, or [q]uit. ")
 	if choice == "FILL" or choice == "fill" or choice == "F" or choice == "f":
 		fill_numbers(new_board)
 	elif choice == "SOLVE" or choice == "solve" or choice == "S" or choice == "s":
